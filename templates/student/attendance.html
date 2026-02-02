@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}My Attendance - Student Management System{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="page-header">
+        <h1><i class="fas fa-calendar-check"></i> My Attendance</h1>
+        <div class="month-filter">
+            <form method="GET" class="filter-form">
+                <div class="form-group">
+                    <label for="month" class="form-label">Select Month:</label>
+                    <input type="month" id="month" name="month" value="{{ selected_month }}" 
+                           class="form-input" onchange="this.form.submit()">
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {% if attendance_records %}
+        <div class="attendance-overview">
+            {% set present_count = attendance_records | selectattr('status', 'equalto', 'present') | list | length %}
+            {% set absent_count = attendance_records | selectattr('status', 'equalto', 'absent') | list | length %}
+            {% set late_count = attendance_records | selectattr('status', 'equalto', 'late') | list | length %}
+            {% set total_days = attendance_records | length %}
+            {% set attendance_percentage = (present_count / total_days * 100) if total_days > 0 else 0 %}
+            
+            <div class="overview-stats">
+                <div class="stat-card">
+                    <div class="stat-icon present">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ present_count }}</h3>
+                        <p>Present Days</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon absent">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ absent_count }}</h3>
+                        <p>Absent Days</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon late">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ late_count }}</h3>
+                        <p>Late Days</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon percentage">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ "%.1f"|format(attendance_percentage) }}%</h3>
+                        <p>Attendance Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="attendance-calendar">
+            <h3>Attendance Records</h3>
+            <div class="calendar-grid">
+                {% for record in attendance_records %}
+                    <div class="calendar-day status-{{ record.status }}">
+                        <div class="day-number">{{ record.date.strftime('%d') }}</div>
+                        <div class="day-status">{{ record.status.title() }}</div>
+                        <div class="day-date">{{ record.date.strftime('%b %d') }}</div>
+                        {% if record.remarks %}
+                            <div class="day-remarks" title="{{ record.remarks }}">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="attendance-table">
+            <h3>Detailed Records</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Marked At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in attendance_records %}
+                            <tr>
+                                <td>{{ record.date.strftime('%B %d, %Y') }}</td>
+                                <td>{{ record.date.strftime('%A') }}</td>
+                                <td>
+                                    <span class="attendance-status status-{{ record.status }}">
+                                        {{ record.status.title() }}
+                                    </span>
+                                </td>
+                                <td>{{ record.remarks or '-' }}</td>
+                                <td>{{ record.marked_at.strftime('%I:%M %p') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-calendar-times"></i>
+            <h3>No Attendance Records</h3>
+            <p>No attendance records found for the selected month.</p>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.month-filter {
+    display: flex;
+    align-items: center;
+}
+
+.filter-form {
+    display: flex;
+    align-items: end;
+    gap: 1rem;
+}
+
+.attendance-overview {
+    margin-bottom: 3rem;
+}
+
+.overview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.stat-icon.present { background-color: #28a745; }
+.stat-icon.absent { background-color: #dc3545; }
+.stat-icon.late { background-color: #ffc107; }
+.stat-icon.percentage { background-color: #667eea; }
+
+.stat-content h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.stat-content p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.attendance-calendar, .attendance-table {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.attendance-calendar h3, .attendance-table h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.calendar-day {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.calendar-day:hover {
+    transform: translateY(-2px);
+}
+
+.calendar-day.status-present {
+    background-color: #d4edda;
+    border: 2px solid #28a745;
+}
+
+.calendar-day.status-absent {
+    background-color: #f8d7da;
+    border: 2px solid #dc3545;
+}
+
+.calendar-day.status-late {
+    background-color: #fff3cd;
+    border: 2px solid #ffc107;
+}
+
+.day-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.day-status {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.day-date {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.day-remarks {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #667eea;
+    cursor: help;
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .overview-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .calendar-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .overview-stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

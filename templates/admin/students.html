@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Students - Student Management System{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="page-header">
+        <h1><i class="fas fa-users"></i> Manage Students</h1>
+        <a href="{{ url_for('create_student') }}" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Add New Student
+        </a>
+    </div>
+    
+    {% if students %}
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>{{ student.full_name }}</span>
+                                </div>
+                            </td>
+                            <td>{{ student.username }}</td>
+                            <td>{{ student.email }}</td>
+                            <td>
+                                <span class="status-badge {% if student.is_active %}status-active{% else %}status-inactive{% endif %}">
+                                    {% if student.is_active %}Active{% else %}Inactive{% endif %}
+                                </span>
+                            </td>
+                            <td>{{ student.created_at.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{{ url_for('toggle_student_status', student_id=student.id) }}" 
+                                       class="btn btn-sm {% if student.is_active %}btn-warning{% else %}btn-success{% endif %}"
+                                       onclick="return confirm('Are you sure you want to {% if student.is_active %}deactivate{% else %}activate{% endif %} this student?')">
+                                        <i class="fas fa-{% if student.is_active %}pause{% else %}play{% endif %}"></i>
+                                        {% if student.is_active %}Deactivate{% else %}Activate{% endif %}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <h3>No Students Found</h3>
+            <p>Start by creating your first student account.</p>
+            <a href="{{ url_for('create_student') }}" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Create First Student
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

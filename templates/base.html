@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Student Task & Attendance Management System</span>
+            </div>
+            
+            {% if current_user.is_authenticated %}
+            <div class="nav-menu">
+                {% if current_user.is_admin() %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('admin_students') }}" class="nav-link">
+                        <i class="fas fa-users"></i> Students
+                    </a>
+                    <a href="{{ url_for('admin_tasks') }}" class="nav-link">
+                        <i class="fas fa-tasks"></i> Tasks
+                    </a>
+                    <a href="{{ url_for('admin_attendance') }}" class="nav-link">
+                        <i class="fas fa-calendar-check"></i> Attendance
+                    </a>
+                    <a href="{{ url_for('admin_edit_profile') }}" class="nav-link">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                    <a href="{{ url_for('admin_change_password') }}" class="nav-link">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('student_dashboard') }}" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('student_tasks') }}" class="nav-link">
+                        <i class="fas fa-tasks"></i> My Tasks
+                    </a>
+                    <a href="{{ url_for('student_attendance') }}" class="nav-link">
+                        <i class="fas fa-calendar-check"></i> My Attendance
+                    </a>
+                    <a href="{{ url_for('edit_profile') }}" class="nav-link">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                    <a href="{{ url_for('change_password') }}" class="nav-link">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                {% endif %}
+                
+                <div class="nav-user">
+                    <span class="user-name">{{ current_user.full_name }}</span>
+                    <a href="{{ url_for('logout') }}" class="nav-link logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-{% if category == 'error' %}exclamation-triangle{% elif category == 'success' %}check-circle{% elif category == 'warning' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                            {{ message }}
+                            <button class="alert-close" onclick="this.parentElement.style.display='none'">×</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Student Management System. Built with Flask.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
