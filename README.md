@@ -163,13 +163,20 @@ For production deployment:
    export DATABASE_URL="your-database-url"
    ```
 
-2. Use a production WSGI server like Gunicorn:
+2. Use a production WSGI server like Gunicorn. Add `gunicorn` to `requirements.txt` and use a start command that binds to the port provided by the hosting environment (Render sets `$PORT` automatically):
    ```bash
    pip install gunicorn
-   gunicorn -w 4 -b 0.0.0.0:5000 app:app
+   gunicorn main:app --bind 0.0.0.0:$PORT
    ```
 
-3. Configure a reverse proxy (nginx) for static files and SSL.
+   - On Render, make sure your service is created as a **Web Service** (not a Static Site) and set the **Start Command** to:
+   ```bash
+   gunicorn main:app --bind 0.0.0.0:$PORT
+   ```
+
+3. Alternatively, if you prefer to run with `python main.py`, ensure the app reads the `$PORT` env var (this repo's `main.py` supports that after the update).
+
+4. Configure a reverse proxy (nginx) for static files and SSL as needed.
 
 ## Future Enhancements
 
