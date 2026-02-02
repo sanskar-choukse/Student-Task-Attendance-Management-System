@@ -1,6 +1,8 @@
 # Student Task & Attendance Management System
 
-A comprehensive Flask web application for managing student tasks and attendance with role-based authentication.
+A Flask-based web application designed to manage student tasks and attendance using role-based access control.
+The system allows administrators to manage students, tasks, and attendance, while students can track their assigned tasks and attendance records.
+***A web-based system where students can view tasks and attendance, and admins manage students, tasks, and attendance.***
 
 ## Features
 
@@ -56,36 +58,6 @@ student-management-system/
 └── README.md
 ```
 
-## Installation & Setup
-
-### Prerequisites
-- Python 3.7 or higher
-- pip (Python package installer)
-
-### Step 1: Clone or Download
-Download all the project files to your local directory.
-
-### Step 2: Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Step 3: Run the Application
-```bash
-python main.py
-```
-
-The application will start on `http://localhost:5000`
-
-## Default Login Credentials
-
-### Admin Account
-- **Username**: `admin`
-- **Password**: `admin123`
-
-### Student Accounts
-Student accounts need to be created by the admin through the admin panel.
-
 ## Usage Guide
 
 ### For Administrators
@@ -120,14 +92,15 @@ Student accounts need to be created by the admin through the admin panel.
 - Status options (present, absent, late)
 - Remarks for additional notes
 
-## Key Features
+### Key Highlights
+- Role-based authentication for Admin and Student users
+- Secure login without displaying demo credentials
+- Clean and modular Flask project structure
+- Simple and user-friendly interface
 
-### Security
-- Password hashing using Werkzeug
-- CSRF protection with Flask-WTF
-- Role-based access control
-- Session management with Flask-Login
+### Learning Outcome
 
+<<<<<<< HEAD
 ### User Experience
 - Responsive design for mobile and desktop
 - Clean, modern interface
@@ -202,6 +175,9 @@ This project is open source and available under the MIT License.
 ## Support
 
 For support or questions, please create an issue in the project repository.
+=======
+- This project helped strengthen understanding of Flask architecture, authentication, database relationships, and frontend integration using HTML and CSS.
+>>>>>>> 8e65e252f15bbde4cc2698c84e250c0b358dd10f
 
 ---
 
