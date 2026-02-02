@@ -1,7 +1,7 @@
 # Student Task & Attendance Management System
 
-A comprehensive Flask web application for managing student tasks and attendance with role-based authentication.
-
+A Flask-based web application designed to manage student tasks and attendance using role-based access control.
+The system allows administrators to manage students, tasks, and attendance, while students can track their assigned tasks and attendance records.
 ## Features
 
 ### Admin Features
