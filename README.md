@@ -4,6 +4,13 @@ A Flask-based web application designed to manage student tasks and attendance us
 The system allows administrators to manage students, tasks, and attendance, while students can track their assigned tasks and attendance records.
 ***A web-based system where students can view tasks and attendance, and admins manage students, tasks, and attendance.***
 
+---
+
+## 🚀 Live Demo
+🔗https://student-task-attendance-management-system.onrender.com
+ 
+---
+
 ## Features
 
 ### Admin Features
