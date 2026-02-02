@@ -2,6 +2,8 @@
 
 A Flask-based web application designed to manage student tasks and attendance using role-based access control.
 The system allows administrators to manage students, tasks, and attendance, while students can track their assigned tasks and attendance records.
+***A web-based system where students can view tasks and attendance, and admins manage students, tasks, and attendance.***
+
 ## Features
 
 ### Admin Features
