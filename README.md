@@ -56,36 +56,6 @@ student-management-system/
 └── README.md
 ```
 
-## Installation & Setup
-
-### Prerequisites
-- Python 3.7 or higher
-- pip (Python package installer)
-
-### Step 1: Clone or Download
-Download all the project files to your local directory.
-
-### Step 2: Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Step 3: Run the Application
-```bash
-python main.py
-```
-
-The application will start on `http://localhost:5000`
-
-## Default Login Credentials
-
-### Admin Account
-- **Username**: `admin`
-- **Password**: `admin123`
-
-### Student Accounts
-Student accounts need to be created by the admin through the admin panel.
-
 ## Usage Guide
 
 ### For Administrators
@@ -120,81 +90,15 @@ Student accounts need to be created by the admin through the admin panel.
 - Status options (present, absent, late)
 - Remarks for additional notes
 
-## Key Features
+### Key Highlights
+- Role-based authentication for Admin and Student users
+- Secure login without displaying demo credentials
+- Clean and modular Flask project structure
+- Simple and user-friendly interface
 
-### Security
-- Password hashing using Werkzeug
-- CSRF protection with Flask-WTF
-- Role-based access control
-- Session management with Flask-Login
+### Learning Outcome
 
-### User Experience
-- Responsive design for mobile and desktop
-- Clean, modern interface
-- Flash messages for user feedback
-- Form validation with error handling
-
-### Data Management
-- SQLAlchemy ORM for database operations
-- Proper foreign key relationships
-- Data validation at model level
-
-## Customization
-
-### Styling
-Modify `static/css/style.css` to customize the appearance.
-
-### Database
-Change the database URI in `config.py` for production use:
-```python
-SQLALCHEMY_DATABASE_URI = 'your-production-database-url'
-```
-
-### Email Configuration
-Add email settings in `config.py` for password reset functionality (future enhancement).
-
-## Production Deployment
-
-For production deployment:
-
-1. Set environment variables:
-   ```bash
-   export SECRET_KEY="your-secret-key"
-   export DATABASE_URL="your-database-url"
-   ```
-
-2. Use a production WSGI server like Gunicorn:
-   ```bash
-   pip install gunicorn
-   gunicorn -w 4 -b 0.0.0.0:5000 app:app
-   ```
-
-3. Configure a reverse proxy (nginx) for static files and SSL.
-
-## Future Enhancements
-
-- Email notifications for task assignments
-- File upload for task submissions
-- Advanced reporting and analytics
-- Calendar integration
-- Mobile app development
-- API endpoints for external integrations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is open source and available under the MIT License.
-
-## Support
-
-For support or questions, please create an issue in the project repository.
+- This project helped strengthen understanding of Flask architecture, authentication, database relationships, and frontend integration using HTML and CSS.
 
 ---
 
